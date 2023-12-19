@@ -4,7 +4,7 @@ import { FaArrowDown } from "react-icons/fa";
 import { FaArrowUp } from "react-icons/fa";
 import { formatCurrency } from "../../utils/formatCurrency";
 const FeaturedInfo = () => {
-  const [income, setIncome] = useState([]);
+
   const [perc, setPerc] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);

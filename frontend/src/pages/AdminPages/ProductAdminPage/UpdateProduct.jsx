@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import imageDb from "../../../config/Config";
 

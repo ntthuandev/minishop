@@ -10,7 +10,7 @@ import axios from "axios";
 import Loading from "../../../components/commom/Loading";
 const CreateNewProduct = ({ isOpen, handleClose, reFetchProduct }) => {
   const [image, setImage] = useState();
-  const [imageUrl, setImageUrl] = useState();
+
   const [loading, setLoading] = useState(false);
   
     // useEffect(() => {

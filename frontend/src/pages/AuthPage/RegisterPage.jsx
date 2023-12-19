@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
+
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import Loading from "../../components/commom/Loading";
@@ -168,6 +168,7 @@ const RegisterPage = () => {
           <img
             src="https://nhaxinh.com/wp-content/uploads/2023/07/BST-Coastal-3-3.jpg"
             className=" h-full w-full object-cover rounded-xl"
+            alt="photo"
           />
         </div>
       </div>
