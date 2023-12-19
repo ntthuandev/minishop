@@ -21,7 +21,7 @@ const POST = process.env.POST || 8080
 app.set("trust proxy", 1)
 app.use(cors(corsOptions))
 app.use(cookieParser())
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
 // add middleware
 app.use("/api/auth", authRoute)
