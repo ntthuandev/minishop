@@ -13,7 +13,7 @@ const app = express();
 dotenv.config();
 const corsOptions ={
     // origin:'http://localhost:3000', 
-    origin:'https://minishop.onrender.com', 
+    origin:'https://minishop-frontend.onrender.com', 
     credentials:true,            //access-control-allow-credentials:true
 }
 
