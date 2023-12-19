@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from "react";
 import useFetch from "../../../hook/useFetch";
 import useFetchPaginate from "../../../hook/useFetchPaginate";
-import CreateNewProduct from "../ProductAdminPage/CreateNewProduct";
+
 import CreateUserAdminPage from "./CreateUserAdminPage";
 import axios from "axios";
 import UserDetailPageAdmin from "./UserDetailPageAdmin";
 import Loading from "../../../components/commom/Loading";
 import { API_URL } from "../../../config/Url";
 
-axios.defaults.withCredentials = true;
+
 const UserItem = ({ data, handleDeleteUser, handleViewDetail }) => {
   return (
     <tr className="text-gray-700 ">
@@ -126,7 +126,7 @@ const UserList = () => {
 
   const handleDeleteUser = async (id) => {
     try {
-      const res = await axios.delete(`/users/${id}`)
+      const res = await axios.delete(`${API_URL}/users/${id}`)
       if(res.data) alert(res.data)
       reFetch()
     } catch (error) {

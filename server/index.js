@@ -14,10 +14,11 @@ dotenv.config();
 const corsOptions ={
     // origin:'http://localhost:3000', 
     origin:['https://minishop-frontend.onrender.com', 'http://localhost:3000'], 
-    credentials:true,            //access-control-allow-credentials:true
+    credentials:true           //access-control-allow-credentials:true
 }
 
 const POST = process.env.POST || 8080
+app.set("trust proxy", 1)
 app.use(cors(corsOptions))
 app.use(cookieParser())
 app.use(express.urlencoded())
