@@ -45,6 +45,6 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.3.5"
-  }
-  
+  },
+  "proxy": "https://minishop-server.onrender.com/api"
 }

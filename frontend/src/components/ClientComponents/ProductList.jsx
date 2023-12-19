@@ -75,7 +75,7 @@ const ProductList = () => {
     setPage(index);
   };
   if (loading) return <Loading />;
-  if (error) return <p>Có lôi xảy ra</p>;
+  if (error) return <p>Có lôi xảy ra: {error}</p>;
 
   return (
     <div className="flex flex-col mt-5 px-5 pb-20">
