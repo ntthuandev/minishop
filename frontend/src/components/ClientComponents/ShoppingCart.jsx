@@ -4,9 +4,10 @@ import { CartItem } from "./CartItem";
 import { useShoppingCart } from "../../context/ShoppingCartContext";
 import useFetch from "../../hook/useFetch";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../config/Url";
 export function ShoppingCart({ isOpen }) {
   const { closeCart, cartItems } = useShoppingCart();
-  const { data } = useFetch("/products");
+  const { data } = useFetch(`${API_URL}/products`);
   const storeItems = data?.data
 
   const navigate = useNavigate();

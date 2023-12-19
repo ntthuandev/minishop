@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
   YAxis,
 } from "recharts";
+import { API_URL } from "../../config/Url";
 const UserChart = () => {
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
@@ -36,7 +37,7 @@ const UserChart = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("/users/user/stats");
+        const res = await axios.get(`${API_URL}/users/user/stats`);
         setData(res.data);
       } catch (err) {
         setError(err);

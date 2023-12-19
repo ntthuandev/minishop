@@ -3,9 +3,10 @@ import useFetch from "../../../hook/useFetch";
 import { IoCloseOutline } from "react-icons/io5";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import Loading from "../../../components/commom/Loading";
+import { API_URL } from "../../../config/Url";
 
 const ProductDetailAdmin = ({ isOpen, handleClose, idProduct }) => {
-  const { data, loading, error } = useFetch(`/products/${idProduct}`);
+  const { data, loading, error } = useFetch(`${API_URL}/products/${idProduct}`);
 
   if (error) return <p>Không thể lấy thông tin sản phẩm</p>;
   return (

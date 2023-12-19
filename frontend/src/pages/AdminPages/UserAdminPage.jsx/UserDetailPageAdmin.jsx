@@ -4,6 +4,7 @@ import useFetch from "../../../hook/useFetch";
 import OrderDetailAdminPage from "../OrderAdminPage/OrderDetailAdminPage";
 import { useOrderDetail } from "../../../context/OrderDetailContext";
 import Loading from "../../../components/commom/Loading";
+import { API_URL } from "../../../config/Url";
 
 
 const OrderItem = ({order, index}) => {
@@ -36,7 +37,7 @@ const OrderItem = ({order, index}) => {
 
 
 const UserDetailPageAdmin = ({ isOpen, handleClose , idUser}) => {
-    const {data, loading, error} = useFetch(`/orders/order/${idUser}`)
+    const {data, loading, error} = useFetch(`${API_URL}/orders/order/${idUser}`)
     
   return (
     <div

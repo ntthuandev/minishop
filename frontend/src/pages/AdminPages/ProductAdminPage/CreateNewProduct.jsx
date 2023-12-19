@@ -8,6 +8,8 @@ import { ref as storageRef } from "firebase/storage";
 import { v4 } from "uuid";
 import axios from "axios";
 import Loading from "../../../components/commom/Loading";
+import { API_URL } from "../../../config/Url";
+axios.defaults.withCredentials = true;
 const CreateNewProduct = ({ isOpen, handleClose, reFetchProduct }) => {
   const [image, setImage] = useState();
 
@@ -59,7 +61,7 @@ const CreateNewProduct = ({ isOpen, handleClose, reFetchProduct }) => {
 
     setLoading(true);
     try {
-      const res = await axios.post("/products/create", dataProduct);
+      const res = await axios.post(`${API_URL}/products/create`, dataProduct);
       if (res) {
         alert("Them san pham thanh cong");
         handleClose();

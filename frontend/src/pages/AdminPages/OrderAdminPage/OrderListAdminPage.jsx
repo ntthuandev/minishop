@@ -6,6 +6,7 @@ import axios from "axios";
 import OrderDetailAdminPage from "./OrderDetailAdminPage";
 import { useOrderDetail } from "../../../context/OrderDetailContext";
 import Loading from "../../../components/commom/Loading";
+import { API_URL } from "../../../config/Url";
 
 const OrderItem = ({ data, handleDeleteOrder, handleViewDetail, handleExportOrderDetail, handleCheckOrder }) => {
   return (
@@ -87,7 +88,7 @@ const OrderListAdminPage = () => {
     //const [isOpenDetail, setIsOpenDetail] = useState(false);
     //const [idOrderDetail, setIdOrderDetail] = useState();
     const {setIdOrder, openOrderDetail} = useOrderDetail()
-  const { data, loading, error, reFetch } = useFetchPaginate("/orders");
+  const { data, loading, error, reFetch } = useFetchPaginate(`${API_URL}/orders`);
   useEffect(() => {
     if (loading) return;
     setOrders(data[page]);
@@ -130,7 +131,7 @@ const OrderListAdminPage = () => {
   const dataForSearch = handleData(data);
   const handleDeleteOrder = async (id) => {
     try {
-      const res = await axios.delete(`/orders/${id}`);
+      const res = await axios.delete(`${API_URL}/orders/${id}`);
 
       if (res) alert(res.data);
       reFetch();
@@ -147,7 +148,7 @@ const OrderListAdminPage = () => {
 
   const handleCheckOrder = async (id) => {
     try {
-      const res = await axios.put(`/orders/${id}`)
+      const res = await axios.put(`${API_URL}/orders/${id}`)
       if(res.data) {
         alert("Đơn hàng đã được duyệt");
         reFetch();
@@ -185,7 +186,7 @@ const OrderListAdminPage = () => {
   // handle export order details
   const handleExportOrderDetail = (id) => {
     return axios({
-      url: `/orders/export/detail/${id}`,
+      url: `${API_URL}/orders/export/detail/${id}`,
       method: 'GET',
       responseType: 'blob',
     })
@@ -211,7 +212,7 @@ const OrderListAdminPage = () => {
   // handle export order
   const handleExportOrder =  () => {
     return axios({
-      url: "/orders/export/order",
+      url: `${API_URL}/orders/export/order`,
       method: 'GET',
       responseType: 'blob',
     })

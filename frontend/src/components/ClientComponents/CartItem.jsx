@@ -3,6 +3,7 @@ import { useShoppingCart } from "../../context/ShoppingCartContext";
 import { AiOutlineDelete } from "react-icons/ai";
 import { formatCurrency } from "../../utils/formatCurrency";
 import useFetch from "../../hook/useFetch";
+import { API_URL } from "../../config/Url";
 
 // type CartItemProps = {
 //   id: number;
@@ -10,7 +11,7 @@ import useFetch from "../../hook/useFetch";
 // };
 
 export function CartItem({ id, quantity, price, image, name }) {
-    const {data} = useFetch("/products")
+    const {data} = useFetch(`${API_URL}/products`)
     const storeItems = data?.data
     
   const { removeFromCart } = useShoppingCart();

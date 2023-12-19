@@ -7,6 +7,7 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../config/Url";
 const Checkout = () => {
   const { cartItems } = useShoppingCart();
   //const [dataOrder, setDataOrder] = useState({});
@@ -53,7 +54,7 @@ const Checkout = () => {
       //sendOderData(dataOrder)
       const sendOderData= async () => {
         try {
-          const res = await  axios.post("/orders", dataOrder.current)
+          const res = await  axios.post(`${API_URL}/orders`, dataOrder.current)
           if(res) {
             alert("Đặt Hàng Thành công")
             setTimeout(() => {

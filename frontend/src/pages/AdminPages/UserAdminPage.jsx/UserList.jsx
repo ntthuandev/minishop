@@ -6,7 +6,9 @@ import CreateUserAdminPage from "./CreateUserAdminPage";
 import axios from "axios";
 import UserDetailPageAdmin from "./UserDetailPageAdmin";
 import Loading from "../../../components/commom/Loading";
+import { API_URL } from "../../../config/Url";
 
+axios.defaults.withCredentials = true;
 const UserItem = ({ data, handleDeleteUser, handleViewDetail }) => {
   return (
     <tr className="text-gray-700 ">
@@ -54,7 +56,7 @@ const UserList = () => {
   const [isOpenCreateUser, setIsOpenCreateUser] = useState(false); // set open create user
   const [isOpenDetailUser, setIsOpenDetailUser] = useState(false); // set open detail user
   const [idDetailUser, setIdDetailUser] = useState() // set id for view detail user
-  const { data, loading, error, reFetch } = useFetchPaginate("/users");
+  const { data, loading, error, reFetch } = useFetchPaginate(`${API_URL}/users`,);
   useEffect(() => {
     if (loading) return;
     setUsers(data[page]);

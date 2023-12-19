@@ -4,6 +4,7 @@ import useFetch from "../../../hook/useFetch";
 import { formatDay } from "../../../utils/formatDay";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { useOrderDetail } from "../../../context/OrderDetailContext";
+import { API_URL } from "../../../config/Url";
 
 const OrderItem = ({ orderItem }) => {
   return (
@@ -33,7 +34,7 @@ const OrderItem = ({ orderItem }) => {
 
 const OrderDetailAdminPage = ({ isOpen, idOrder }) => {
   const {closeOrderDetail} = useOrderDetail()
-  const { data, loading, error } = useFetch(`/orders/${idOrder}`);
+  const { data, loading, error } = useFetch(`${API_URL}/orders/${idOrder}`);
 
 
 

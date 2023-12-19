@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import useFetch from '../../hook/useFetch'
 import { useNavigate } from 'react-router-dom'
+import { API_URL } from '../../config/Url'
 
 
 export const RecentUser = () => {
     const [recentUser, setRecentUser] = useState([])
 
-    const {data:user, loading, error} = useFetch("/users?limit=3")
+    const {data:user, loading, error} = useFetch(`${API_URL}/users?limit=3`)
 
     const navigate = useNavigate()
     const handleViewUsers = () => {

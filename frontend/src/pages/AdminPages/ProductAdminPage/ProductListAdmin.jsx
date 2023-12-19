@@ -11,6 +11,7 @@ import ProductLIstGrid from "../../../components/AdminComponents/ProductLIstGrid
 
 import { IoGridOutline } from "react-icons/io5";
 import { FaList } from "react-icons/fa";
+import { API_URL } from "../../../config/Url";
 const ItemTable = ({ data, handleDeleteProduct, handUpdateProduct, handleViewDetail }) => {
   return (
     <tr className="text-gray-700 ">
@@ -64,7 +65,7 @@ const ItemTable = ({ data, handleDeleteProduct, handUpdateProduct, handleViewDet
 const ProductListAdmin = () => {
   const [products, setProducts] = useState([]); // set product list
   const [page, setPage] = useState(0); // set page pagination
-  const { data, loading, error, reFetch } = useFetchPaginate("/products");
+  const { data, loading, error, reFetch } = useFetchPaginate(`${API_URL}/products`);
 
   const [isOpen, setIsOpen]  = useState(false); // open create product page
   const [isOpenUpdate, setIsOpenUpate] = useState(false) // open update product page
@@ -158,7 +159,7 @@ const ProductListAdmin = () => {
 
   const handleDeleteProduct = async (id) => {
     try {
-      const res = await axios.delete(`/products/${id}`)
+      const res = await axios.delete(`${API_URL}/products/${id}`)
       if(res) {
         alert("San pham da xoa")
         reFetch();

@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import useFetch from "../../hook/useFetch";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { API_URL } from "../../config/Url";
 
 const RecentOrder = () => {
   const [orderRecent, setOrderRecent] = useState([]);
 
-  const { data , loading, error } = useFetch("/orders//top/resent");
+  const { data , loading, error } = useFetch(`${API_URL}/orders//top/resent`);
 
   const navigate = useNavigate();
   const handleViewOrders = () => {

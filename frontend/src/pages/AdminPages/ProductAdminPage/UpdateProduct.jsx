@@ -9,6 +9,7 @@ import { v4 } from "uuid";
 import axios from "axios";
 import useFetch from "../../../hook/useFetch";
 import Loading from "../../../components/commom/Loading";
+import { API_URL } from "../../../config/Url";
 
 const UpdateProduct = ({ isOpen, handleClose, reFetchProduct, idProduct }) => {
   const [image, setImage] = useState();
@@ -18,7 +19,7 @@ const UpdateProduct = ({ isOpen, handleClose, reFetchProduct, idProduct }) => {
     loading,
     reFetch,
     error,
-  } = useFetch(`/products/${idProduct}`);
+  } = useFetch(`${API_URL}/products/${idProduct}`);
   console.log(dataProduct);
   const handlePreviewImage = (e) => {
     const file = e.target.files[0];
@@ -44,7 +45,7 @@ const UpdateProduct = ({ isOpen, handleClose, reFetchProduct, idProduct }) => {
     const dataProductUpdate = { ...values, image: imageUrl };
 
     try {
-      const res = await axios.put(`/products/update/${idProduct}`, dataProductUpdate);
+      const res = await axios.put(`${API_URL}/products/update/${idProduct}`, dataProductUpdate);
       if (res) {
         alert("Cap nhat san pham thanh cong");
         handleClose();

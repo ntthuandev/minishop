@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { API_URL } from '../../config/Url';
 
 
 const OrderChart = () => {
@@ -30,7 +31,7 @@ const OrderChart = () => {
         const fetchData = async () => {
           setLoading(true);
           try {
-            const res = await axios.get("/orders/order/data/year/income");
+            const res = await axios.get(`${API_URL}/orders/order/data/year/income`);
             setData(res.data);
           } catch (err) {
             setError(err);

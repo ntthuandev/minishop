@@ -5,6 +5,8 @@ import { IoCloseOutline } from "react-icons/io5";
 
 import axios from "axios";
 import Loading from "../../../components/commom/Loading";
+import { API_URL } from "../../../config/Url";
+axios.defaults.withCredentials = true;
 const CreateUserAdminPage = ({ isOpen, handleClose, reFetchUsers }) => {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false);
@@ -13,7 +15,7 @@ const CreateUserAdminPage = ({ isOpen, handleClose, reFetchUsers }) => {
     const dataUser = {...values, password: values.username}
     setLoading(true);
     try {
-        const res = await axios.post("/auth/register", dataUser)
+        const res = await axios.post(`${API_URL}/auth/register`, dataUser)
 
         if(res.data) alert("Tạo người dùng thành công")
         reFetchUsers();

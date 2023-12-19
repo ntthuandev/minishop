@@ -2,13 +2,14 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
+import {API_URL} from "../../config/Url"
 const LoginPage = () => {
+  axios.defaults.withCredentials = true;
   const [dataLogin, setDataLogin] = useState({ username: "", password: "" });
   const [noValueUserName, setNoValueUserName] = useState(false);
   const [noValuePassword, setNoValuePassword] = useState(false);
 
-  const { loading, error, dispatch } = useContext(AuthContext);
+  const {error, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
   // lay du lieu tu input
   const handleChange = (e) => {
@@ -43,7 +44,7 @@ const LoginPage = () => {
 
     try {
       const res = await axios.post(
-        "/auth/login",
+        `${API_URL}/auth/login`,
         dataLogin
       );
       if (res.data) {
@@ -52,7 +53,7 @@ const LoginPage = () => {
       } else {
         dispatch({
           type: "LOGIN_FAILURE",
-          payload: { message: "Bạn không được cho phép" },
+          payload: { message: "Đăng nhập thất bại" },
         });
       }
     } catch (err) {

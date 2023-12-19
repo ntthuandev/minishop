@@ -4,7 +4,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import Loading from "../../components/commom/Loading";
-
+import { API_URL } from "../../config/Url";
+axios.defaults.withCredentials = true;
 const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -15,7 +16,7 @@ const RegisterPage = () => {
     const dataUser = { ...values };
     setLoading(true);
     try {
-      const res = await axios.post("/auth/register", dataUser);
+      const res = await axios.post(`${API_URL}/auth/register`, dataUser);
 
       if (res.data) {
         setTimeout(() => {

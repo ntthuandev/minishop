@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import ProductItemClient from "../commom/ProductItemClient";
 import Loading from "../../components/commom/Loading"
 import useFetchPaginate from "../../hook/useFetchPaginate";
+import { API_URL } from "../../config/Url";
 const ProductList = () => {
   const [products, setProducts] = useState([]); // set product list
   const [page, setPage] = useState(0); // set page pagination
-  const { data, loading, error} = useFetchPaginate("/products");
+  const { data, loading, error} = useFetchPaginate(`${API_URL}/products`);
 
   const [searchText, setSearchText] = useState(""); // set text seach
   const [searchTimeout, setSearchTimeout] = useState(null); // set time search product

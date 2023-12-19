@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaArrowDown } from "react-icons/fa";
 import { FaArrowUp } from "react-icons/fa";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { API_URL } from "../../config/Url";
 const FeaturedInfo = () => {
 
   const [perc, setPerc] = useState(0);
@@ -16,7 +17,7 @@ const FeaturedInfo = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("/orders/order/data/income");
+        const res = await axios.get(`${API_URL}/orders/order/data/income`);
         setData(res.data);
       } catch (err) {
         setError(err);
