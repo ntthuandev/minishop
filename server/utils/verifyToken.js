@@ -3,6 +3,29 @@
 import jwt from "jsonwebtoken";
 import { createError } from "../utils/error.js";
 
+
+//  export const verifyToken = (req, res, next) => {
+//   const authHeader = req.headers.authorization || req.headers.Authorization
+
+//   console.log(authHeader)
+//   if (!authHeader?.startsWith('Token ')) {
+//     return next(createError(401, "Bạn cần phải đăng nhập!"));
+//   }
+
+//   const token = authHeader.split(' ')[1];
+
+//   jwt.verify(
+//       token,
+//       process.env.JWT,
+//       (err, user) => {
+//           if (err) {
+//             if (err) return next(createError(403, "Token không hợp lệ!"));
+//           }
+//          req.user = user
+//           next();
+//       }
+//   )
+// };
 export const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
   if (!token) {

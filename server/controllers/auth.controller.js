@@ -41,7 +41,7 @@ export const login = async (req, res, next) => {
       { id: user._id, isAdmin: user.isAdmin },
       process.env.JWT
     );
-
+    const isProduction = process.env.NODE_ENV === "production";
     const { password, isAdmin, ...otherDetails } = user._doc;
     res.header('Access-Control-Allow-Origin', 'https://minishop-frontend.vercel.app');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -50,13 +50,14 @@ export const login = async (req, res, next) => {
     res
     .cookie("access_token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", 
-      sameSite: "none",
+      secure: isProduction, 
+      sameSite: "Lax",
       domain: ".vercel.app", // hoặc ".minishop-server.vercel.app" tùy thuộc vào yêu cầu của bạn
       path: "/", // hoặc đường dẫn cụ thể của ứng dụng của bạn
     })
     .status(200)
     .json({ details: { ...otherDetails }, isAdmin });
+   
   } catch (err) {
     next(err);
   }
