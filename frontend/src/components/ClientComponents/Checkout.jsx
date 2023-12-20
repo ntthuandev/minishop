@@ -57,6 +57,7 @@ const Checkout = () => {
           const res = await  axios.post(`${API_URL}/orders`, dataOrder.current)
           if(res) {
             alert("Đặt Hàng Thành công")
+            localStorage.removeItem("shopping-cart")
             setTimeout(() => {
               navigate("/")
             }, 1000)

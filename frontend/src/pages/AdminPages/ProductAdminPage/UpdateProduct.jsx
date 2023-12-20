@@ -11,6 +11,7 @@ import useFetch from "../../../hook/useFetch";
 import Loading from "../../../components/commom/Loading";
 import { API_URL } from "../../../config/Url";
 
+axios.defaults.withCredentials = true;
 const UpdateProduct = ({ isOpen, handleClose, reFetchProduct, idProduct }) => {
   const [image, setImage] = useState();
   const {
@@ -56,6 +57,7 @@ const UpdateProduct = ({ isOpen, handleClose, reFetchProduct, idProduct }) => {
     const url =  await handleUploadImage();
     const dataProductUpdate = { ...values, image: url };
 
+    console.log(url)
     try {
       const res = await axios.put(`${API_URL}/products/update/${idProduct}`, dataProductUpdate);
       if (res) {
@@ -79,10 +81,21 @@ const UpdateProduct = ({ isOpen, handleClose, reFetchProduct, idProduct }) => {
 
     if (!values.price) {
       errors.price = "Vui lòng nhập giá sản phẩm";
+    } else
+    {
+      const regex  = /^[1-9]\d*(,\d{3})*(,\d{3})*(,\d{3})*(,\d{3})*(,\d{3})*(,\d{3})*(,\d{3})*(,\d{3})*(,\d{3})*(,\d{1,2})?/;
+      if (!regex.test(values.price))
+          errors.price = "Giá bán không hợp lệ!!!";
     }
     if (!values.inventory) {
       errors.inventory = "Vui lòng nhập số lượng sản phẩm";
+    } else
+    {
+      const regex  = /^[1-9]\d*$/;
+      if (!regex.test(values.inventory))
+          errors.inventory = "Số lượng không hợp lệ!!!";
     }
+    
     if (!values.description) {
       errors.description = "Vui lòng nhập thông tin mô tả sản phẩm";
     }
