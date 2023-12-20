@@ -55,7 +55,8 @@ const UpdateProduct = ({ isOpen, handleClose, reFetchProduct, idProduct }) => {
   };
   const handleSubmit = async (values) => {
     const url =  await handleUploadImage();
-    const dataProductUpdate = { ...values, image: url };
+    const urlImg = image ? url : dataProduct.image 
+    const dataProductUpdate = { ...values, image: urlImg };
 
     console.log(dataProductUpdate)
     try {
@@ -208,7 +209,7 @@ const UpdateProduct = ({ isOpen, handleClose, reFetchProduct, idProduct }) => {
                           type="radio"
                           name="featured"
                           onChange={formik.handleChange}
-                          value={true}
+                          value={false}
                         />
                         )}
                        
