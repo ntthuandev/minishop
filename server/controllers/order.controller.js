@@ -164,7 +164,7 @@ const getRecentOrders = async (req, res, next) => {
   try {
     const data = await Order.find({})
       .sort({
-        createAt: -1,
+        createdAt: -1,
       })
       .populate({
         path: "user",

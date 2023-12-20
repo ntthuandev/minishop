@@ -57,8 +57,9 @@ const UpdateProduct = ({ isOpen, handleClose, reFetchProduct, idProduct }) => {
     const url =  await handleUploadImage();
     const dataProductUpdate = { ...values, image: url };
 
-    console.log(url)
+    console.log(dataProductUpdate)
     try {
+      // https://minishop-server.vercel.app/api/products/update/
       const res = await axios.put(`${API_URL}/products/update/${idProduct}`, dataProductUpdate);
       if (res) {
         alert("Cap nhat san pham thanh cong");
