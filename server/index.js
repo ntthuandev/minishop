@@ -25,7 +25,7 @@ const allowedOrigins = [
     
 ];
 const corsOptions = {
-    origin:"https://minishop-frontend.vercel.app/",
+    origin:"https://minishop-frontend.vercel.app",
     credentials: true,
     // optionsSuccessStatus: 200,
     // methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
