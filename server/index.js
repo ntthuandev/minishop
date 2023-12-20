@@ -14,7 +14,7 @@ const app = express();
 //config app
 dotenv.config();
 const corsOptions ={
-     origin:'https://minishop-eight.vercel.app', 
+     origin:['https://minishop-eight.vercel.app', 'http://localhost:3000' ], 
     // origin:['https://minishop-frontend.onrender.com', 'http://localhost:3000', "https://minishop-eight.vercel.app"], 
     credentials:true           //access-control-allow-credentials:true
 }
