@@ -33,7 +33,7 @@ const corsOptions = {
 }
 
 const POST = process.env.POST || 8080
- app.set("trust proxy", 1)
+//  app.set("trust proxy", 1)
 app.use(cookieParser())
 app.use(cors(corsOptions))
 app.use(express.json())
