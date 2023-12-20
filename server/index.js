@@ -21,8 +21,7 @@ const allowedOrigins = [
 ];
 const corsOptions = {
     origin:"https://minishop-frontend.vercel.app",
-    credentials: true,
-    optionsSuccessStatus: 200
+    credentials: true
 }
 
 const POST = process.env.POST || 8080
