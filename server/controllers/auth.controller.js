@@ -43,18 +43,14 @@ export const login = async (req, res, next) => {
     );
 
     const { password, isAdmin, ...otherDetails } = user._doc;
-    res.header('Access-Control-Allow-Origin', 'https://minishop-frontend.vercel.app');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.header('Access-Control-Allow-Credentials', 'true'); // Cho phép sử dụng cookie và các tiêu đề khác
+   
+    res
+    .cookie("access_token", token, {
+      httpOnly: true
 
-    res.cookie("access_token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      domain: ".vercel.app", // hoặc ".minishop-server.vercel.app" tùy thuộc vào yêu cầu của bạn
-      path: "/", // hoặc đường dẫn cụ thể của ứng dụng của bạn
     })
+    .status(200)
+    .json({ details: { ...otherDetails }, isAdmin });
   } catch (err) {
     next(err);
   }
