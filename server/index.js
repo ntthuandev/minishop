@@ -22,10 +22,10 @@ dotenv.config();
 const allowedOrigins = [
     'http://localhost:3000',
     'https://minishop-frontend.vercel.app',
-    'https://minishop-eight.vercel.app'
+    
 ];
 const corsOptions = {
-    origin:allowedOrigins,
+    origin:"https://minishop-frontend.vercel.app/",
     credentials: true,
     optionsSuccessStatus: 200,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
