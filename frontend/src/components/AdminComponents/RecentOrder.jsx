@@ -7,7 +7,7 @@ import { API_URL } from "../../config/Url";
 const RecentOrder = () => {
   const [orderRecent, setOrderRecent] = useState([]);
 
-  const { data , loading, error } = useFetch(`${API_URL}/orders//top/resent`);
+  const { data , loading, error } = useFetch(`${API_URL}/orders/top/resent`);
 
   const navigate = useNavigate();
   const handleViewOrders = () => {

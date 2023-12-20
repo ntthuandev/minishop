@@ -13,7 +13,6 @@ import { API_URL } from "../../../config/Url";
 
 const UpdateProduct = ({ isOpen, handleClose, reFetchProduct, idProduct }) => {
   const [image, setImage] = useState();
-  const [imageUrl, setImageUrl] = useState("");
   const {
     data: dataProduct,
     loading,
@@ -30,19 +29,32 @@ const UpdateProduct = ({ isOpen, handleClose, reFetchProduct, idProduct }) => {
   };
 
   const handleUploadImage = () => {
-    if (image !== null) {
-      const id = v4();
-      const imgRef = storageRef(imageDb, `files/${id}`);
-      uploadBytes(imgRef, image).then((value) => {
-        getDownloadURL(value.ref).then((url) => {
-          setImageUrl(url);
-        });
-      });
-    }
+    // if (image !== null) {
+    //   const id = v4();
+    //   const imgRef = storageRef(imageDb, `files/${id}`);
+    //   uploadBytes(imgRef, image).then((value) => {
+    //     getDownloadURL(value.ref).then((url) => {
+    //       setImageUrl(url);
+    //     });
+    //   });
+    // }
+    return new Promise((resolve, reject) => {
+      if (image !== null) {
+        const id = v4();
+        const imgRef = storageRef(imageDb, `files/${id}`);
+        
+        uploadBytes(imgRef, image)
+          .then((value) => getDownloadURL(value.ref))
+          .then((url) => resolve(url))
+          .catch((error) => reject(error));
+      } else {
+        reject("No image selected");
+      }
+    });
   };
   const handleSubmit = async (values) => {
-    handleUploadImage();
-    const dataProductUpdate = { ...values, image: imageUrl };
+    const url =  await handleUploadImage();
+    const dataProductUpdate = { ...values, image: url };
 
     try {
       const res = await axios.put(`${API_URL}/products/update/${idProduct}`, dataProductUpdate);
