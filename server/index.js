@@ -13,10 +13,22 @@ import cors from "cors";
 const app = express();
 //config app
 dotenv.config();
-const corsOptions ={
-     origin:['https://minishop-eight.vercel.app', 'http://localhost:3000' ], 
-    // origin:['https://minishop-frontend.onrender.com', 'http://localhost:3000', "https://minishop-eight.vercel.app"], 
-    credentials:true           //access-control-allow-credentials:true
+
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://minishop-frontend.vercel.app',
+    'https://minishop-eight.vercel.app'
+];
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
+    credentials: true,
+    optionsSuccessStatus: 200
 }
 
 const POST = process.env.POST || 8080
