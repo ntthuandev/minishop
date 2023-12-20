@@ -207,7 +207,7 @@ const searchOrder = async (req, res, next) => {
 const exportOrderExcel = async (req, res, next) => {
   try {
     const workbook = new excelJS.Workbook(); // create new workbook
-    const pathFile = "./files"; // pathto download excel
+    const pathFile = "../files"; // pathto download excel
 
     const worksheet = workbook.addWorksheet("Order List");
 
@@ -249,7 +249,7 @@ const exportOrderExcel = async (req, res, next) => {
 
     try {
       const data = await workbook.xlsx.writeFile(`${pathFile}/donhang.xlsx`);
-      res.download("./files/donhang.xlsx");
+      res.download("../files/donhang.xlsx");
     } catch (error) {
       next(error);
     }
@@ -268,7 +268,7 @@ const downloadOrderDetail = async (req, res, next) => {
     });
 
     const workbook = new excelJS.Workbook(); // create new workbook
-    const pathFile = "./files"; // path to download excel
+    const pathFile = "../files"; // path to download excel
 
     const worksheet = workbook.addWorksheet("Order Detail");
     let counter = 1;
@@ -301,7 +301,7 @@ const downloadOrderDetail = async (req, res, next) => {
     const detail = await workbook.xlsx.writeFile(
       `${pathFile}/chitiet_donhang.xlsx`
     );
-    res.download("./files/chitiet_donhang.xlsx");
+    res.download("../files/chitiet_donhang.xlsx");
   } catch (error) {
     next(error);
   }
