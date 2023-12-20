@@ -6,7 +6,7 @@ const useFetchPaginate = (url) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
- 
+  axios.defaults.withCredentials = true;
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);

@@ -45,7 +45,7 @@ const LoginPage = () => {
     try {
       const res = await axios.post(
         `${API_URL}/auth/login`,
-        dataLogin
+        dataLogin,  { withCredentials: true }
       );
       if (res.data) {
         dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
