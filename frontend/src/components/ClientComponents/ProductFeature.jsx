@@ -32,7 +32,7 @@ const handleNavigate = () => {
         <h2 className='text-2xl font-bold'>Sản Phẩm Nổi Bậc</h2>
         <div className='flex justify-between mt-5 gap-10'>
           {data.map(item => (
-            <div>
+            <div key={item.name}>
               <img src={item?.image} alt="product_image" className='w-full h-[200px] object-cover' />
               <div className='mt-3 flex-1'>
                 <p className='text-xl font-semibold'>{item.name}</p>

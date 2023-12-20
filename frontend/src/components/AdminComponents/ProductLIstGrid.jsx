@@ -32,7 +32,7 @@ const ProductItem = ({ data, handleDelete, handleEdit, handleView }) => {
       </div>
       <div className="flex justify-center">
         <p className="font-semibold text-center">
-          {formatCurrency(data.price)} Vnd
+          {formatCurrency(data.price)}
         </p>
       </div>
       <div className="mt-5 flex  justify-center items-center gap-4 border-t border-gray-100 pt-3">

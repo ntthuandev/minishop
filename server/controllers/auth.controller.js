@@ -5,9 +5,10 @@ import jwt from "jsonwebtoken";
 
 export const register = async (req, res, next) => {
   try {
-    const {username, password} = req.body
-    const usernameAlreadyExists = await User.findOne({username})
-    if(usernameAlreadyExists) return next(createError(401, "Tài khoản này đã tồn tại"))
+    const { username, password } = req.body;
+    const usernameAlreadyExists = await User.findOne({ username });
+    if (usernameAlreadyExists)
+      return next(createError(401, "Tài khoản này đã tồn tại"));
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
 
@@ -32,7 +33,9 @@ export const login = async (req, res, next) => {
       user.password
     );
     if (!isPasswordCorrect)
-      return next(createError(400, "Tên đăng nhập hoặc mật khẩu chưa chính xác!"));
+      return next(
+        createError(400, "Tên đăng nhập hoặc mật khẩu chưa chính xác!")
+      );
 
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
@@ -41,7 +44,12 @@ export const login = async (req, res, next) => {
 
     const { password, isAdmin, ...otherDetails } = user._doc;
     res
-    .cookie("access_token", token, {httpOnly: true, secure: true })
+      .cookie("access_token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      })
       .status(200)
       .json({ details: { ...otherDetails }, isAdmin });
   } catch (err) {
@@ -49,16 +57,9 @@ export const login = async (req, res, next) => {
   }
 };
 export const logout = async (req, res) => {
-  res.cookie('access_token', '', {
+  res.cookie("access_token", "", {
     httpOnly: true,
     expires: new Date(0),
   });
-  res.status(200).json({ msg: 'Tài khoản đã đăng xuất!' });
+  res.status(200).json({ msg: "Tài khoản đã đăng xuất!" });
 };
-
-// {
-//   httpOnly: true,
-// secure:true,
-//   sameSite: "strict",
-//   maxAge: 60 * 1000,
-// }

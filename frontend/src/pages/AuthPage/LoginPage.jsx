@@ -4,7 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import {API_URL} from "../../config/Url"
 const LoginPage = () => {
-  axios.defaults.withCredentials = true;
+  
   const [dataLogin, setDataLogin] = useState({ username: "", password: "" });
   const [noValueUserName, setNoValueUserName] = useState(false);
   const [noValuePassword, setNoValuePassword] = useState(false);
@@ -38,7 +38,7 @@ const LoginPage = () => {
       if (dataLogin.password === "") setNoValuePassword(true);
       return;
     }
-    console.log(dataLogin);
+    
     // call api
     dispatch({ type: "LOGIN_START" });
 
