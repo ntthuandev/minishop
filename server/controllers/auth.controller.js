@@ -53,7 +53,7 @@ export const login = async (req, res, next) => {
       secure: isProduction, 
       sameSite: "Lax",
       domain: ".vercel.app", // hoặc ".minishop-server.vercel.app" tùy thuộc vào yêu cầu của bạn
-      path: "/", // hoặc đường dẫn cụ thể của ứng dụng của bạn
+      path: "/api/auth/login", // hoặc đường dẫn cụ thể của ứng dụng của bạn
     })
     .status(200)
     .json({ details: { ...otherDetails }, isAdmin });
