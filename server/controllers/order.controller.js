@@ -207,7 +207,7 @@ const searchOrder = async (req, res, next) => {
 const exportOrderExcel = async (req, res, next) => {
   try {
     const workbook = new excelJS.Workbook(); // create new workbook
-    const pathFile = "./files"; // pathto download excel
+    const pathFile = "./server/files"; // pathto download excel
 
     const worksheet = workbook.addWorksheet("Order List");
 
@@ -249,7 +249,7 @@ const exportOrderExcel = async (req, res, next) => {
 
     try {
       const data = await workbook.xlsx.writeFile(`${pathFile}/donhang.xlsx`);
-      res.download("./files/donhang.xlsx");
+      res.download("./server/files/donhang.xlsx");
     } catch (error) {
       next(error);
     }
