@@ -212,8 +212,10 @@ const searchOrder = async (req, res, next) => {
 
 const exportOrderExcel = async (req, res, next) => {
   try {
-    const workbook = new excelJS.Workbook(); // create new workbook
-    const filesDirectoryPath = path.join(__dirname,"../" ,'files');// pathto download excel
+
+    const workbook = new excelJS.Workbook();
+    const tmpDirectory = '/tmp'
+    const filesDirectoryPath = path.join(tmpDirectory, 'files') // create new workbook
     if (!fs.existsSync(filesDirectoryPath)) {
       fs.mkdirSync(filesDirectoryPath, { recursive: true });
     }
@@ -256,13 +258,17 @@ const exportOrderExcel = async (req, res, next) => {
     });
 
     try {
-      const data = await workbook.xlsx.writeFile(`${filesDirectoryPath}/donhang.xlsx`);
-      res.download(`${filesDirectoryPath}/donhang.xlsx`);
+      // const data = await workbook.xlsx.writeFile(`${filesDirectoryPath}/donhang.xlsx`);
+      // res.download(`${filesDirectoryPath}/donhang.xlsx`);
 
       // const buffer = await workbook.xlsx.writeBuffer();
       // res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
       // res.setHeader("Content-Disposition", "attachment; filename=donhang.xlsx");
       // res.send(buffer);
+
+      const filePath = path.join(filesDirectoryPath, 'donhang.xlsx');
+      await workbook.xlsx.writeFile(filePath);
+      res.download(filePath);
     } catch (error) {
       next(error);
     }
