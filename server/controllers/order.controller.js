@@ -4,6 +4,12 @@ import User from "../models/user.model.js";
 import { createError } from "../utils/error.js";
 import excelJS from "exceljs";
 import * as fs from "fs";
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const createOrder = async (req, res, next) => {
   try {
     const {
@@ -207,9 +213,9 @@ const searchOrder = async (req, res, next) => {
 const exportOrderExcel = async (req, res, next) => {
   try {
     const workbook = new excelJS.Workbook(); // create new workbook
-    const pathFile = "./files"; // pathto download excel
-    if (!fs.existsSync(pathFile)) {
-      fs.mkdirSync(pathFile, { recursive: true });
+    const filesDirectoryPath = path.join(__dirname, 'files');// pathto download excel
+    if (!fs.existsSync(filesDirectoryPath)) {
+      fs.mkdirSync(filesDirectoryPath, { recursive: true });
     }
     const worksheet = workbook.addWorksheet("Order List");
 
