@@ -3,7 +3,7 @@ import Product from "../models/product.model.js";
 import User from "../models/user.model.js";
 import { createError } from "../utils/error.js";
 import excelJS from "exceljs";
-
+import * as fs from "fs";
 const createOrder = async (req, res, next) => {
   try {
     const {
@@ -207,8 +207,10 @@ const searchOrder = async (req, res, next) => {
 const exportOrderExcel = async (req, res, next) => {
   try {
     const workbook = new excelJS.Workbook(); // create new workbook
-    const pathFile = "./server/files"; // pathto download excel
-
+    const pathFile = "./files"; // pathto download excel
+    if (!fs.existsSync(pathFile)) {
+      fs.mkdirSync(pathFile, { recursive: true });
+    }
     const worksheet = workbook.addWorksheet("Order List");
 
     worksheet.columns = [
@@ -248,8 +250,13 @@ const exportOrderExcel = async (req, res, next) => {
     });
 
     try {
-      const data = await workbook.xlsx.writeFile(`${pathFile}/donhang.xlsx`);
-      res.download("./server/files/donhang.xlsx");
+      // const data = await workbook.xlsx.writeFile(`${pathFile}/donhang.xlsx`);
+      // res.download("./server/files/donhang.xlsx");
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      res.setHeader("Content-Disposition", "attachment; filename=donhang.xlsx");
+      res.send(buffer);
     } catch (error) {
       next(error);
     }
