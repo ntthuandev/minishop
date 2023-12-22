@@ -287,7 +287,11 @@ const downloadOrderDetail = async (req, res, next) => {
     });
 
     const workbook = new excelJS.Workbook(); // create new workbook
-    const pathFile = "./files"; // path to download excel
+    const tmpDirectory = '/tmp'
+    const filesDirectoryPath = path.join(tmpDirectory, 'files') // create new workbook
+    if (!fs.existsSync(filesDirectoryPath)) {
+      fs.mkdirSync(filesDirectoryPath, { recursive: true });
+    } // path to download excel
 
     const worksheet = workbook.addWorksheet("Order Detail");
     let counter = 1;
@@ -317,10 +321,14 @@ const downloadOrderDetail = async (req, res, next) => {
       ...dataProduct,
     ]);
 
-    const detail = await workbook.xlsx.writeFile(
-      `${pathFile}/chitiet_donhang.xlsx`
-    );
-    res.download("./files/chitiet_donhang.xlsx");
+    // const detail = await workbook.xlsx.writeFile(
+    //   `${pathFile}/chitiet_donhang.xlsx`
+    // );
+    // res.download("./files/chitiet_donhang.xlsx");
+
+    const filePath = path.join(filesDirectoryPath, 'chitiet_donhang.xlsx');
+      await workbook.xlsx.writeFile(filePath);
+      res.download(filePath);
   } catch (error) {
     next(error);
   }
