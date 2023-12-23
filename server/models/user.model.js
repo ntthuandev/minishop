@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    isDelete: {
+        type: Boolean,
+        default: false,
+    },
     photo: {
         type: String,
         default: "https://static.productionready.io/images/smiley-cyrus.jpg"
@@ -33,4 +37,5 @@ const userSchema = new mongoose.Schema({
     default: false,
    }
 }, { timestamps: true });
+userSchema.add({ age: Number });
 export default mongoose.model("User", userSchema);

@@ -12,7 +12,8 @@ import {
     exportOrderExcel,
     downloadOrderDetail,
     getMonthlyIncome,
-    getOrderDataYear
+    getOrderDataYear,
+    reStoreOrder
   } from "../controllers/order.controller.js"
 import { verifyAdmin, verifyUser } from "../utils/verifyToken.js";
 const router = express.Router()
@@ -38,4 +39,7 @@ router.get("/order/data/income", verifyAdmin, getMonthlyIncome)
 
 // get data order year
 router.get("/order/data/year/income", verifyAdmin, getOrderDataYear)
+
+// restore order
+router.put("/restore/:id", verifyAdmin, reStoreOrder)
 export default router;

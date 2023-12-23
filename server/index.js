@@ -8,6 +8,7 @@ import authRoute from "./routes/auth.route.js"
 import usersRoute from "./routes/user.route.js"
 import productRoute from "./routes/product.route.js"
 import orderRoute from "./routes/order.route.js"
+import historyRoute from "./routes/history.route.js"
 import connectDB from "./mongodb/connect.js";
 import cors from "cors";
 
@@ -26,6 +27,7 @@ const allowedOrigins = [
 ];
 const corsOptions = {
     origin:'https://minishop-frontend.vercel.app',
+    // origin: "http://localhost:3000",
     credentials: true,
     optionsSuccessStatus: 200,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -44,6 +46,7 @@ app.use("/api/auth", authRoute)
 app.use("/api/users", usersRoute);
 app.use("/api/products", productRoute)
 app.use("/api/orders", orderRoute)
+app.use("/api/history", historyRoute)
 // handle error
 app.use((err, req, res, next) => {
     const errStatus = err.status || 500

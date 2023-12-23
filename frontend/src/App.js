@@ -21,6 +21,7 @@ import UploadImage from "./components/commom/UploadImage";
 import OrderListAdminPage from "./pages/AdminPages/OrderAdminPage/OrderListAdminPage";
 import { OrderDetailProvider } from "./context/OrderDetailContext";
 import RegisterPage from "./pages/AuthPage/RegisterPage";
+import HistoryList from "./pages/AdminPages/HistoryPage/HistoryList";
 
 const ProtectRoute = ({ children }) => {
   const { user } = useContext(AuthContext);
@@ -84,6 +85,7 @@ const router = createBrowserRouter([
       { path: "/admin/products", element: <ProductListAdmin /> },
       { path: "/admin/orders", element: <OrderListAdminPage /> },
       { path: "/admin/upload", element: <UploadImage /> },
+      { path: "/admin/history", element: <HistoryList /> },
     ],
   },
   {

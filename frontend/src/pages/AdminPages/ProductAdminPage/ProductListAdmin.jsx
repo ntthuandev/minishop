@@ -16,35 +16,31 @@ const ItemTable = ({ data, handleDeleteProduct, handUpdateProduct, handleViewDet
   return (
     <tr className="text-gray-700 ">
       <td className="px-4 py-3">
-        <div className="flex items-center text-sm">
+        <div className="flex gap-10 text-sm m-0">
           <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
             <img
               className="object-cover w-full h-full rounded-full"
               src={data.image}
               alt="image"
             />
-            <div
-              className="absolute inset-0 rounded-full shadow-inner"
-              aria-hidden="true"
-            ></div>
           </div>
-          <div>
-            <p className="font-semibold">{data.name}</p>
-            <p className="text-xs text-gray-600">
+          <div className="flex flex-col">
+            <span className="font-semibold">{data.name}</span>
+            <span className="text-xs text-gray-600">
               {formatCurrency(data.price)}
-            </p>
+            </span>
           </div>
         </div>
       </td>
 
       <td className="px-4 py-3 text-sm text-center">{data.sales}</td>
-      <td className="px-4 py-3 text-sm">
-        <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full">
+      <td className="px-4 py-3 text-sm text-center">
+        <p className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full">
           {data.inventory}
-        </span>
+        </p>
       </td>
 
-      <td className="px-4 py-3 text-sm">{data.category}</td>
+      <td className="px-4 py-3 text-sm text-center">{data.category}</td>
 
       <td className="px-4 py-3">
         <div className="flex items-center space-x-4 text-sm">
@@ -181,7 +177,7 @@ const ProductListAdmin = () => {
   }
   if (error)
     return (
-      <p className="text-red-400 font-semibold">
+      <p className="text-red-400 font-semibold text-center">
         Không thể lấy được danh sách sản phẩm!!!
       </p>
     );
@@ -214,11 +210,11 @@ const ProductListAdmin = () => {
            <table className="w-full whitespace-nowrap">
              <thead>
                <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b ">
-                 <td className="px-4 py-3">Sản Phẩm</td>
-                 <td className="px-4 py-3">Số lượng bán</td>
-                 <td className="px-4 py-3">Số lượng còn</td>
-                 <td className="px-4 py-3">Loại Sản Phẩm</td>
-                 <td className="px-4 py-3"></td>
+                 <td className="px-4 py-3 text-center">Sản Phẩm</td>
+                 <td className="px-4 py-3 text-center">Số lượng bán</td>
+                 <td className="px-4 py-3 text-center">Số lượng còn</td>
+                 <td className="px-4 py-3 text-center">Loại Sản Phẩm</td>
+                 <td className="px-4 py-3 text-center"></td>
                </tr>
              </thead>
 

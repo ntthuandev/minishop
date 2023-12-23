@@ -9,17 +9,20 @@ import { API_URL } from "../../../config/Url";
 axios.defaults.withCredentials = true;
 const CreateUserAdminPage = ({ isOpen, handleClose, reFetchUsers }) => {
   const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
   const [loading, setLoading] = useState(false);
   const handleSubmit = async (values) => {
     //alert(JSON.stringify(values))
     const dataUser = {...values, password: values.username}
     setLoading(true);
     try {
-        const res = await axios.post(`${API_URL}/auth/register`, dataUser)
+        const res = await axios.post(`${API_URL}/users`, dataUser)
 
-        if(res.data) alert("Tạo người dùng thành công")
-        reFetchUsers();
-        handleClose();
+        if(res.data) setSuccess(res.data)
+        setTimeout(() => {
+          reFetchUsers();
+          handleClose();
+        }, 500)
     } catch (err) {
         setError(err.response.data.message)
     }
@@ -166,6 +169,7 @@ const CreateUserAdminPage = ({ isOpen, handleClose, reFetchUsers }) => {
                 </div>
                 {loading && (<Loading />)}
                 {error && (<p className="text-base text-red-500 text-center">{error}</p>)}
+                {success && <p className="base text-center text-green-500">{success}</p>}
               <div className="flex justify-center gap-5 mt-10">
                 <button
                   className="px-6 py-2 border border-black rounded-lg"

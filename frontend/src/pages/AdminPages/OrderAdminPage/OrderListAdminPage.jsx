@@ -33,24 +33,24 @@ const OrderItem = ({ data, handleDeleteOrder, handleViewDetail, handleExportOrde
 
       <td className="px-4 py-3 text-sm text-center">{data.phoneOrder}</td>
       <td className="px-4 py-3 text-sm">
-        <span
-          className={`px-2 py-1 font-semibold leading-tight ${
+        <p
+          className={`px-2 py-1 font-semibold text-center leading-tight ${
             data.status === "Chưa Thanh Toán"
               ? "bg-red-100 text-red-700"
               : " text-green-700 bg-green-100 "
           } rounded-full`}
         >
           {data.status}
-        </span>
+        </p>
       </td>
 
-      <td className="px-4 py-3 text-sm">{formatDay(data.createdAt)}</td>
-          <td className="px-4 py-3">
-            <div className="flex items-center text-sm">
-              {data.isCheck ? (<span className="bg-blue-500 hover:opacity-90 text-white px-2 py-1 rounded-md">Đã duyệt</span>) : (
+      <td className="px-4 py-3 text-sm text-center">{formatDay(data.createdAt)}</td>
+          <td className="px-4 py-3 text-center text-base">
+           
+              {data.isCheck ? (<p className="bg-blue-500 text-center hover:opacity-90 text-white px-2 py-1 rounded-md">Đã duyệt</p>) : (
                 <button className="font-bold text-blue-500 hover:opacity-90 px-2 py-1" onClick={() => handleCheckOrder(data._id)}>Duyệt đơn</button>
               )}
-            </div>
+           
           </td>
       <td className="px-4 py-3">
         <div className="flex items-center space-x-4 text-sm">
@@ -261,12 +261,12 @@ const OrderListAdminPage = () => {
             <table className="w-full whitespace-nowrap">
               <thead>
                 <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b ">
-                  <td className="px-4 py-3">Khách hàng</td>
-                  <td className="px-4 py-3">Số điện thoại</td>
-                  <td className="px-4 py-3">Tình Trạng</td>
-                  <td className="px-4 py-3">Ngày đặt</td>
-                  <td className="px-4 py-3">Duyệt đơn</td>
-                  <td className="px-4 py-3"></td>
+                  <td className="px-4 py-3 text-center">Khách hàng</td>
+                  <td className="px-4 py-3 text-center">Số điện thoại</td>
+                  <td className="px-4 py-3 text-center">Tình Trạng</td>
+                  <td className="px-4 py-3 text-center">Ngày đặt</td>
+                  <td className="px-4 py-3 text-center">Duyệt đơn</td>
+                  <td className="px-4 py-3 text-center"></td>
                 </tr>
               </thead>
 

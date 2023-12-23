@@ -14,6 +14,10 @@ const links = [
     name: "Đơn hàng",
     href: "/admin/orders",
   },
+  {
+    name: "Lịch sử",
+    href: "/admin/history",
+  },
 ];
 const Sidebar = () => {
     const location = useLocation();

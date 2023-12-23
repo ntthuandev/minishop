@@ -1,6 +1,6 @@
 import express from "express"
 
-import { createProduct, deleteProduct, updateProduct, getAllProduct, getProduct , getMaxInventoryProducts, getPanigation, getSearchProduct} from "../controllers/product.controller.js"
+import { createProduct, deleteProduct, updateProduct, getAllProduct, getProduct , getMaxInventoryProducts, getPanigation, getSearchProduct, restoreProduct} from "../controllers/product.controller.js"
 import { verifyAdmin, verifyUser } from "../utils/verifyToken.js";
 const router = express.Router()
 
@@ -16,5 +16,6 @@ router.get("/pagination/list", getPanigation)
 
 // search product
 router.get("/search/result", verifyUser, getSearchProduct)
-
+// restore product
+router.put("/restore/:id", verifyAdmin, restoreProduct)
 export default router;

@@ -24,14 +24,14 @@ const UserItem = ({ data, handleDeleteUser, handleViewDetail }) => {
         </div>
       </td>
 
-      <td className="px-4 py-3 text-sm">{data.username}</td>
-      <td className="px-4 py-3 text-sm">
-        <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full">
+      <td className="px-4 py-3 text-sm text-center">{data.username}</td>
+      <td className="px-4 py-3 text-sm text-center">
+        <p className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full">
           {data.fullname}
-        </span>
+        </p>
       </td>
 
-      <td className="px-4 py-3 text-sm">{data.phone}</td>
+      <td className="px-4 py-3 text-sm text-center">{data.phone}</td>
 
       <td className="px-4 py-3">
         <div className="flex items-center space-x-4 text-sm">
@@ -176,10 +176,10 @@ const UserList = () => {
               <table className="w-full whitespace-nowrap">
                 <thead>
                   <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b ">
-                    <td className="px-4 py-3">Ảnh</td>
-                    <td className="px-4 py-3">Tên tài khoản</td>
-                    <td className="px-4 py-3">Tên khách hàng</td>
-                    <td className="px-4 py-3">Số điện thoại</td>
+                    <td className="px-4 py-3 text-center">Ảnh</td>
+                    <td className="px-4 py-3 text-center">Tên tài khoản</td>
+                    <td className="px-4 py-3 text-center">Tên khách hàng</td>
+                    <td className="px-4 py-3 text-center">Số điện thoại</td>
                     <td className="px-4 py-3"></td>
                   </tr>
                 </thead>

@@ -14,7 +14,7 @@ const CreateNewProduct = ({ isOpen, handleClose, reFetchProduct }) => {
   const [image, setImage] = useState();
 
   const [loading, setLoading] = useState(false);
-  
+  const [success, setSuccess] = useState("");
     // useEffect(() => {
     //     return () => {
     //         image && URL.revokeObjectURL(image.preview)
@@ -63,9 +63,12 @@ const CreateNewProduct = ({ isOpen, handleClose, reFetchProduct }) => {
     try {
       const res = await axios.post(`${API_URL}/products/create`, dataProduct);
       if (res) {
-        alert("Them san pham thanh cong");
-        handleClose();
-        reFetchProduct();
+        setSuccess(res.data);
+        setTimeout(() => {
+          handleClose();
+          reFetchProduct();
+
+        }, 500)
       }
     } catch (error) {
       alert(error);
@@ -276,6 +279,7 @@ const CreateNewProduct = ({ isOpen, handleClose, reFetchProduct }) => {
               </div>
               <div>
                 {loading && (<Loading />)}
+                {success && <p className="text-center text-green-500">{success}</p>}
               </div>
               <div className="flex justify-end gap-5 mt-10">
                 <button

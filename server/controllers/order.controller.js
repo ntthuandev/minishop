@@ -7,6 +7,7 @@ import * as fs from "fs";
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import History from "../models/history.model.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -86,7 +87,8 @@ const getAllOrders = async (req, res, next) => {
   const { limit = 0, page = 0 } = req.query;
   const skipOrder = (page - 1) * limit;
   try {
-    const orders = await Order.find({})
+    // const update = await Order.updateMany({$set: {isCheck: false}})
+    const orders = await Order.find({isDelete: false})
       .populate({
         path: "user",
         select: "-password",
@@ -120,7 +122,7 @@ const getSingleOrder = async (req, res, next) => {
 };
 const getCurrentUserOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find({ user: req.params.userId });
+    const orders = await Order.find({ user: req.params.userId, isDelete: false});
     const user = await User.findOne({ _id: req.params.userId });
     //res.status(200).json({ orders, count: orders.length });
     res.status(200).json({ orders, count: orders.length, user: user });
@@ -136,10 +138,17 @@ const updateOrder = async (req, res, next) => {
     if (!order) {
       return next(createError(`Không có đơn hàng với mã : ${orderId}`));
     }
-    //order.status = "Đã thanh toán";
+    order.status = "Đã Thanh Toán";
     order.isCheck = true;
     await order.save();
 
+    const history = new History({
+      modelType: "Order",
+      modelId: order._id,
+      action: "CheckOrder",
+      user: req.user.id
+    })
+    await history.save();
     res.status(200).json({ order });
   } catch (error) {
     next(error);
@@ -149,7 +158,7 @@ const deleteOrder = async (req, res, next) => {
   const orderId = req.params.id;
   try {
     const order = await Order.findOne({ _id: orderId });
-    await Order.findByIdAndDelete(req.params.id);
+    const orderDelete =  await Order.findByIdAndUpdate(req.params.id, {$set: {"isDelete": true}});
     try {
       try {
         await User.findByIdAndUpdate(order.user._id, {
@@ -158,17 +167,55 @@ const deleteOrder = async (req, res, next) => {
       } catch (error) {
         next(error);
       }
+      const history = new History({
+        modelType: "Order",
+        modelId: orderDelete._id,
+        action: "delete",
+        user: req.user.id
+      })
+      await history.save();
     } catch (error) {}
-    res.status(200).json("Đơn hàng đa xoá thành công");
+    // da xoa don hang thi khong the khoi phuc duoc
+    res.status(200).json("Đơn hàng đã xoá thành công");
   } catch (error) {
     next();
   }
 };
 
+// restore order
+const reStoreOrder = async (req, res, next) => {
+  const orderId = req.params.id;
+  try {
+    const order = await Order.findOne({ _id: orderId });
+    const orderRestore =  await Order.findByIdAndUpdate(req.params.id, {$set: {"isDelete": false}});
+    const history = await History.findByIdAndUpdate(req.body.idHistory, {$set: {"isRestore": true}})
+    try {
+      try {
+        await User.findByIdAndUpdate(order.user._id, {
+          $push: { orderId: orderId },
+        });
+      } catch (error) {
+        next(error);
+      }
+      const newHistory = new History({
+        modelType: "Order",
+        modelId: orderRestore._id,
+        action: "restore",
+        user: req.user.id
+      })
+      await newHistory.save();
+    } catch (error) {}
+    // da xoa don hang thi khong the khoi phuc duoc
+    res.status(200).json("Đơn hàng được khôi phục");
+  } catch (error) {
+    next();
+  }
+}
+
 // get nhung don hang gon day
 const getRecentOrders = async (req, res, next) => {
   try {
-    const data = await Order.find({})
+    const data = await Order.find({isDelete: false})
       .sort({
         createdAt: -1,
       })
@@ -233,7 +280,7 @@ const exportOrderExcel = async (req, res, next) => {
     ];
 
     let counter = 1;
-    const orderList = await Order.find({}).populate({
+    const orderList = await Order.find({isDelete: false}).populate({
       path: "user",
       select: "-password",
     });
@@ -346,6 +393,7 @@ const getMonthlyIncome = async (req, res, next) => {
       {
         $match: {
           createdAt: { $gte: twoMonthsAgo },
+          isDelete: false
          
         },
       },
@@ -355,6 +403,7 @@ const getMonthlyIncome = async (req, res, next) => {
           total: "$total",
           orderItems: "$orderItems",
           totalProduct: "$totalProduct",
+          isCheck: "$isCheck"
         },
       },
 
@@ -362,7 +411,7 @@ const getMonthlyIncome = async (req, res, next) => {
         $group: {
           _id: "$month",
           totalSale: { $sum: "$totalProduct" },
-          totalIncome: { $sum: "$total" },
+          totalIncome: { $sum: { $cond: [{ $eq: ["$isCheck", true] }, "$total", 0] } },
           totalOrder: { $sum: 1 },
         },
       },
@@ -382,13 +431,13 @@ const getOrderDataYear = async (req, res, next) => {
 
   try {
     const data = await Order.aggregate([
-      { $match: { createdAt: { $gte: lastYear } } },
+      { $match: { createdAt: { $gte: lastYear }, isDelete: false } },
       {
         $project: {
           month: { $month: "$createdAt" },
           total: "$total",
-          orderItems: "$orderItems",
           totalProduct: "$totalProduct",
+          isCheck: "$isCheck",
         },
       },
 
@@ -396,8 +445,8 @@ const getOrderDataYear = async (req, res, next) => {
         $group: {
           _id: "$month",
           totalSale: { $sum: "$totalProduct" },
-          totalIncome: { $sum: "$total" },
-
+          // totalIncome: { $sum: "$total" },
+          totalIncome: { $sum: { $cond: [{ $eq: ["$isCheck", true] }, "$total", 0] } },
           totalOrder: { $sum: 1 },
         },
       },
@@ -405,6 +454,8 @@ const getOrderDataYear = async (req, res, next) => {
         $sort: { _id: 1 },
       },
     ]);
+
+    
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json(err);
@@ -423,45 +474,6 @@ export {
   downloadOrderDetail,
   getMonthlyIncome,
   getOrderDataYear,
+  reStoreOrder
 };
 
-// const Order = mongoose.model('Order', orderSchema);
-
-// // Sử dụng aggregation để nhóm và tính tổng theo tháng
-// Order.aggregate([
-//   {
-//     $project: {
-//       month: { $month: '$createdAt' },
-//       year: { $year: '$createdAt' },
-//       total: '$total',
-//       orderItems: '$orderItems'
-//     }
-//   },
-//   {
-//     $unwind: '$orderItems'
-//   },
-//   {
-//     $group: {
-//       _id: {
-//         year: '$year',
-//         month: '$month',
-//         product: '$orderItems.product'
-//       },
-//       totalAmount: { $sum: '$orderItems.amount' },
-//       totalRevenue: { $sum: { $multiply: ['$orderItems.amount', '$orderItems.price'] } },
-//       totalOrders: { $sum: 1 }
-//     }
-//   },
-//   {
-//     $sort: { '_id.year': 1, '_id.month': 1 }
-//   }
-// ], (err, result) => {
-//   if (err) {
-//     console.error(err);
-//   } else {
-//     console.log(result);
-//   }
-
-//   // Đóng kết nối MongoDB sau khi hoàn tất
-//   mongoose.connection.close();
-// });

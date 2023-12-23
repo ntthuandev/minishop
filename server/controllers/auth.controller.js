@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 
+
 export const register = async (req, res, next) => {
   try {
     const { username, password } = req.body;
@@ -18,6 +19,7 @@ export const register = async (req, res, next) => {
     });
 
     await newUser.save();
+    
     res.status(200).json("Tạo tài khoản thành công");
   } catch (err) {
     next(err);
@@ -44,6 +46,7 @@ export const login = async (req, res, next) => {
     const isProduction = process.env.NODE_ENV === "production";
     const { password, isAdmin, ...otherDetails } = user._doc;
     res.header('Access-Control-Allow-Origin', 'https://minishop-frontend.vercel.app');
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.header('Access-Control-Allow-Credentials', 'true'); // Cho phép sử dụng cookie và các tiêu đề khác
