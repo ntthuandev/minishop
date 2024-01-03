@@ -4,9 +4,9 @@ import User from "../models/user.model.js";
 import { createError } from "../utils/error.js";
 import excelJS from "exceljs";
 import * as fs from "fs";
-import * as path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import * as path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 import History from "../models/history.model.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -88,7 +88,7 @@ const getAllOrders = async (req, res, next) => {
   const skipOrder = (page - 1) * limit;
   try {
     // const update = await Order.updateMany({$set: {isCheck: false}})
-    const orders = await Order.find({isDelete: false})
+    const orders = await Order.find({ isDelete: false })
       .populate({
         path: "user",
         select: "-password",
@@ -122,7 +122,10 @@ const getSingleOrder = async (req, res, next) => {
 };
 const getCurrentUserOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find({ user: req.params.userId, isDelete: false});
+    const orders = await Order.find({
+      user: req.params.userId,
+      isDelete: false,
+    });
     const user = await User.findOne({ _id: req.params.userId });
     //res.status(200).json({ orders, count: orders.length });
     res.status(200).json({ orders, count: orders.length, user: user });
@@ -146,8 +149,8 @@ const updateOrder = async (req, res, next) => {
       modelType: "Order",
       modelId: order._id,
       action: "CheckOrder",
-      user: req.user.id
-    })
+      user: req.user.id,
+    });
     await history.save();
     res.status(200).json({ order });
   } catch (error) {
@@ -158,7 +161,9 @@ const deleteOrder = async (req, res, next) => {
   const orderId = req.params.id;
   try {
     const order = await Order.findOne({ _id: orderId });
-    const orderDelete =  await Order.findByIdAndUpdate(req.params.id, {$set: {"isDelete": true}});
+    const orderDelete = await Order.findByIdAndUpdate(req.params.id, {
+      $set: { isDelete: true },
+    });
     try {
       try {
         await User.findByIdAndUpdate(order.user._id, {
@@ -171,8 +176,8 @@ const deleteOrder = async (req, res, next) => {
         modelType: "Order",
         modelId: orderDelete._id,
         action: "delete",
-        user: req.user.id
-      })
+        user: req.user.id,
+      });
       await history.save();
     } catch (error) {}
     // da xoa don hang thi khong the khoi phuc duoc
@@ -187,8 +192,12 @@ const reStoreOrder = async (req, res, next) => {
   const orderId = req.params.id;
   try {
     const order = await Order.findOne({ _id: orderId });
-    const orderRestore =  await Order.findByIdAndUpdate(req.params.id, {$set: {"isDelete": false}});
-    const history = await History.findByIdAndUpdate(req.body.idHistory, {$set: {"isRestore": true}})
+    const orderRestore = await Order.findByIdAndUpdate(req.params.id, {
+      $set: { isDelete: false },
+    });
+    const history = await History.findByIdAndUpdate(req.body.idHistory, {
+      $set: { isRestore: true },
+    });
     try {
       try {
         await User.findByIdAndUpdate(order.user._id, {
@@ -201,8 +210,8 @@ const reStoreOrder = async (req, res, next) => {
         modelType: "Order",
         modelId: orderRestore._id,
         action: "restore",
-        user: req.user.id
-      })
+        user: req.user.id,
+      });
       await newHistory.save();
     } catch (error) {}
     // da xoa don hang thi khong the khoi phuc duoc
@@ -210,12 +219,12 @@ const reStoreOrder = async (req, res, next) => {
   } catch (error) {
     next();
   }
-}
+};
 
 // get nhung don hang gon day
 const getRecentOrders = async (req, res, next) => {
   try {
-    const data = await Order.find({isDelete: false})
+    const data = await Order.find({ isDelete: false })
       .sort({
         createdAt: -1,
       })
@@ -259,10 +268,9 @@ const searchOrder = async (req, res, next) => {
 
 const exportOrderExcel = async (req, res, next) => {
   try {
-
     const workbook = new excelJS.Workbook();
-    const tmpDirectory = '/tmp'
-    const filesDirectoryPath = path.join(tmpDirectory, 'files') // create new workbook
+    const tmpDirectory = "/tmp";
+    const filesDirectoryPath = path.join(tmpDirectory, "files"); // create new workbook
     if (!fs.existsSync(filesDirectoryPath)) {
       fs.mkdirSync(filesDirectoryPath, { recursive: true });
     }
@@ -280,7 +288,7 @@ const exportOrderExcel = async (req, res, next) => {
     ];
 
     let counter = 1;
-    const orderList = await Order.find({isDelete: false}).populate({
+    const orderList = await Order.find({ isDelete: false }).populate({
       path: "user",
       select: "-password",
     });
@@ -313,7 +321,7 @@ const exportOrderExcel = async (req, res, next) => {
       // res.setHeader("Content-Disposition", "attachment; filename=donhang.xlsx");
       // res.send(buffer);
 
-      const filePath = path.join(filesDirectoryPath, 'donhang.xlsx');
+      const filePath = path.join(filesDirectoryPath, "donhang.xlsx");
       await workbook.xlsx.writeFile(filePath);
       res.download(filePath);
     } catch (error) {
@@ -334,8 +342,8 @@ const downloadOrderDetail = async (req, res, next) => {
     });
 
     const workbook = new excelJS.Workbook(); // create new workbook
-    const tmpDirectory = '/tmp'
-    const filesDirectoryPath = path.join(tmpDirectory, 'files') // create new workbook
+    const tmpDirectory = "/tmp";
+    const filesDirectoryPath = path.join(tmpDirectory, "files"); // create new workbook
     if (!fs.existsSync(filesDirectoryPath)) {
       fs.mkdirSync(filesDirectoryPath, { recursive: true });
     } // path to download excel
@@ -373,50 +381,66 @@ const downloadOrderDetail = async (req, res, next) => {
     // );
     // res.download("./files/chitiet_donhang.xlsx");
 
-    const filePath = path.join(filesDirectoryPath, 'chitiet_donhang.xlsx');
-      await workbook.xlsx.writeFile(filePath);
-      res.download(filePath);
+    const filePath = path.join(filesDirectoryPath, "chitiet_donhang.xlsx");
+    await workbook.xlsx.writeFile(filePath);
+    res.download(filePath);
   } catch (error) {
     next(error);
   }
 };
 
-
-
-
 const getMonthlyIncome = async (req, res, next) => {
+  // const date = new Date();
+  // const twoMonthsAgo = new Date(new Date().setMonth(date.getMonth() - 2));
+  // const currentYear = new Date().toLocaleString('en-US', { timeZone: 'UTC' })
+  // console.log(currentYear)
+
   const date = new Date();
-  const twoMonthsAgo = new Date(new Date().setMonth(date.getMonth() - 2));
+  const currentYear = date.getUTCFullYear();
+
+  // Calculate two months ago
+  const twoMonthsAgo = new Date(date);
+  twoMonthsAgo.setUTCMonth(date.getUTCMonth() - 1);
+
 
   try {
     const income = await Order.aggregate([
       {
         $match: {
-          createdAt: { $gte: twoMonthsAgo },
-          isDelete: false
-         
+          // createdAt: { $gte: twoMonthsAgo },
+          createdAt: { $gte: twoMonthsAgo, $lt: date },
+          isDelete: false,
         },
       },
       {
         $project: {
           month: { $month: "$createdAt" },
+          year: { $year: "$createdAt" },
           total: "$total",
           orderItems: "$orderItems",
           totalProduct: "$totalProduct",
-          isCheck: "$isCheck"
+          isCheck: "$isCheck",
         },
       },
 
       {
         $group: {
-          _id: "$month",
+          // _id: "$month",
+          _id: {
+            year: "$year",
+            month: "$month",
+          },
           totalSale: { $sum: "$totalProduct" },
-          totalIncome: { $sum: { $cond: [{ $eq: ["$isCheck", true] }, "$total", 0] } },
+          totalIncome: {
+            $sum: { $cond: [{ $eq: ["$isCheck", true] }, "$total", 0] },
+          },
           totalOrder: { $sum: 1 },
         },
       },
       {
-        $sort: { _id: 1 },
+        // $sort: { _id: 1 },
+        $sort: { year: 1, month: 1 },
+        
       },
     ]);
     res.status(200).json(income);
@@ -428,10 +452,26 @@ const getMonthlyIncome = async (req, res, next) => {
 const getOrderDataYear = async (req, res, next) => {
   const date = new Date();
   const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+  // const currentYear = date.getUTCFullYear();
+  const currentYear = new Date()
+    .toLocaleString("en-US", { timeZone: "UTC" })
+    .split(",")[0]
+    .split("/")[2];
+
 
   try {
     const data = await Order.aggregate([
-      { $match: { createdAt: { $gte: lastYear }, isDelete: false } },
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(currentYear, 0, 1), // Start of the current year
+            $lt: new Date(currentYear + 1, 0, 1),
+          },
+          isDelete: false,
+        },
+      },
+      // { $match: { createdAt: { $gte: lastYear }, isDelete: false } },
+
       {
         $project: {
           month: { $month: "$createdAt" },
@@ -444,9 +484,12 @@ const getOrderDataYear = async (req, res, next) => {
       {
         $group: {
           _id: "$month",
+
           totalSale: { $sum: "$totalProduct" },
           // totalIncome: { $sum: "$total" },
-          totalIncome: { $sum: { $cond: [{ $eq: ["$isCheck", true] }, "$total", 0] } },
+          totalIncome: {
+            $sum: { $cond: [{ $eq: ["$isCheck", true] }, "$total", 0] },
+          },
           totalOrder: { $sum: 1 },
         },
       },
@@ -455,7 +498,6 @@ const getOrderDataYear = async (req, res, next) => {
       },
     ]);
 
-    
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json(err);
@@ -474,6 +516,5 @@ export {
   downloadOrderDetail,
   getMonthlyIncome,
   getOrderDataYear,
-  reStoreOrder
+  reStoreOrder,
 };
-

@@ -136,10 +136,17 @@ const searchUser = async (req, res, next) => {
 const getUserStats  = async (req, res, next) => {
     const date = new Date();
     const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
-  
+    const currentYear = new Date()
+    .toLocaleString("en-US", { timeZone: "UTC" })
+    .split(",")[0]
+    .split("/")[2];
+
     try {
       const data = await User.aggregate([
-        { $match: { createdAt: { $gte: lastYear } } },
+        { $match: { createdAt: {
+          $gte: new Date(currentYear, 0, 1), // Start of the current year
+          $lt: new Date(currentYear + 1, 0, 1),
+        }, } },
         {
           $project: {
             month: { $month: "$createdAt" },
